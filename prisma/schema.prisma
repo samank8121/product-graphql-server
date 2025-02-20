@@ -18,6 +18,36 @@ model Product {
   imageSrc     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  cart_product CartProduct[]
   @@map("product")
 }
+model Cart {
+  id        Int   @id @default(autoincrement())
+  userId       Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart_product CartProduct[]
+  @@map("cart")
+}
+
+model CartProduct {
+  id        Int   @id @default(autoincrement())
+  productCount Int     @default(1)
+  cartId       Int
+  productId    Int
+  cart         Cart    @relation(fields: [cartId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product      Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@unique([cartId, productId])
+  @@map("cart_product")
+}
+
+model User {
+  id        Int   @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("user")
+}
+

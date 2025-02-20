@@ -9,6 +9,7 @@ import {
 @Injectable()
 export class ProductService {
   constructor(private readonly prismaService: PrismaService) {}
+
   async findAll(params?: FindProductInput) {
     const products = await this.prismaService.product.findMany({
       where: { ...params },
@@ -18,6 +19,7 @@ export class ProductService {
     }
     return products;
   }
+
   async findBySlug(slug: string) {
     const product = await this.prismaService.product.findUnique({
       where: {
@@ -29,6 +31,7 @@ export class ProductService {
     }
     return product;
   }
+
   async create(params: CreateProductInput) {
     const product = await this.prismaService.product.create({
       data: { ...params },
@@ -38,6 +41,7 @@ export class ProductService {
     }
     return product;
   }
+
   async updateProduct(product: UpdateProductInput) {
     const response = await this.prismaService.product.update({
       where: { slug: product.slug },
@@ -45,11 +49,24 @@ export class ProductService {
     });
     return response;
   }
+
   async delete(slug: string) {
     const product = await this.prismaService.product.delete({
       where: { slug: slug },
     });
 
     return product.slug === slug;
+  }
+
+  async findByCartId(cartId: number) {
+    const products = await this.prismaService.product.findMany({
+      where: {
+        cart_product: { some: { cartId } },
+      },
+    });
+    if (!products.length) {
+      return null;
+    }
+    return products;
   }
 }

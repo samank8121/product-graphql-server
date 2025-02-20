@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cart {
+  createdAt: DateTime!
+  id: Int!
+  productIds: [Product!]!
+  updatedAt: DateTime!
+  userId: Float!
+}
+
 input CreateProductInput {
   caption: String!
   description: String!
@@ -16,6 +24,11 @@ input CreateProductInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input FindCartInput {
+  id: Int
+  userId: Int
+}
 
 input FindProductInput {
   caption: String
@@ -36,6 +49,7 @@ type Mutation {
 
 type Product {
   caption: String!
+  cartIds: [Cart!]
   createdAt: DateTime!
   description: String!
   id: Int!
@@ -48,6 +62,7 @@ type Product {
 }
 
 type Query {
+  carts(params: FindCartInput): [Cart!]!
   product(params: FindProductInput!): Product!
   products(params: FindProductInput): [Product!]!
 }

@@ -1,11 +1,14 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './models/product.model';
 import { CreateProductInput, FindProductInput, UpdateProductInput } from './dto/product-input.dto';
+import { CartService } from 'src/cart/cart.service';
 
 @Resolver(() => Product)
 export class ProductResolver {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService,
+    private readonly cartService: CartService,
+  ) {}
 
   @Query(() => [Product], { name: 'products' })
   async getProducts(
@@ -34,7 +37,12 @@ export class ProductResolver {
     return this.productService.updateProduct(product);
   }
   @Mutation(() => Boolean, { name: 'DeleteProduct' })
-  async deleteAuthor(@Args('slug') slug: string) {
+  async deleteProduct(@Args('slug') slug: string) {
     return this.productService.delete(slug);
+  }
+  @ResolveField(() => Product)
+  async cartIds(@Parent() parent: Product) {
+    const cartItems = await this.cartService.findByProductId(parent.id);
+    return cartItems ?? [];
   }
 }
