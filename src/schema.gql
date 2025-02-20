@@ -1,0 +1,63 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateProductInput {
+  caption: String!
+  description: String!
+  imageSrc: String!
+  price: Float!
+  rate: Int = 0
+  slug: String!
+  weight: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input FindProductInput {
+  caption: String
+  description: String
+  id: Int
+  imageSrc: String
+  price: Float
+  rate: Int
+  slug: String
+  weight: String
+}
+
+type Mutation {
+  CreateProduct(params: CreateProductInput!): Product!
+  DeleteProduct(slug: String!): Boolean!
+  UpdateProduct(params: UpdateProductInput!): Product!
+}
+
+type Product {
+  caption: String!
+  createdAt: DateTime!
+  description: String!
+  id: Int!
+  imageSrc: String!
+  price: Float!
+  rate: Int!
+  slug: String!
+  updatedAt: DateTime!
+  weight: String!
+}
+
+type Query {
+  product(params: FindProductInput!): Product!
+  products(params: FindProductInput): [Product!]!
+}
+
+input UpdateProductInput {
+  caption: String
+  description: String
+  imageSrc: String
+  price: Float
+  rate: Int = 0
+  slug: String!
+  weight: String
+}
