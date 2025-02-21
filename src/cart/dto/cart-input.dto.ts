@@ -1,5 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsInt } from 'class-validator';
+import { ProductIdCountInput } from 'src/product/dto';
+
 
 @InputType()
 export class FindCartInput  {
@@ -9,9 +11,8 @@ export class FindCartInput  {
   @Field(() => Int, { nullable: true })
   userId?: number; 
 }
-@InputType()
-export class CreateCartInput {    
-  @Field(() => Int)
+
+export class CreateCartInput {  
   @IsInt()
   userId: number;  
 }
@@ -21,7 +22,6 @@ export class UpdateCartInput {
   @IsInt()
   id: number; 
 
-  @Field({ nullable: true })
-  @IsInt()
-  userId: number;  
+  @Field(() => [ProductIdCountInput], { nullable: true })
+  products: ProductIdCountInput[]
 }

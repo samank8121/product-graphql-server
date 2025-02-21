@@ -10,8 +10,14 @@ type Cart {
   user: User!
 }
 
-input CreateCartInput {
-  userId: Int!
+input CreateProductInput {
+  caption: String!
+  description: String!
+  imageSrc: String!
+  price: Float!
+  rate: Int = 0
+  slug: String!
+  weight: String!
 }
 
 input CreateUserInput {
@@ -48,10 +54,13 @@ input FindUserInput {
 }
 
 type Mutation {
-  CreateProduct(params: CreateCartInput!): Cart!
+  CreateProduct(params: CreateProductInput!): Product!
   CreateUser(params: CreateUserInput!): User!
-  DeleteProduct(id: Float!): Boolean!
-  UpdateProduct(params: UpdateCartInput!): Cart!
+  DeleteCart(id: Int!): Boolean!
+  DeleteProduct(slug: String!): Boolean!
+  DeleteUser(id: Int!): Boolean!
+  UpdateCart(params: UpdateCartInput!): Cart!
+  UpdateProduct(params: UpdateProductInput!): Product!
   UpdateUser(params: UpdateUserInput!): User!
 }
 
@@ -67,6 +76,11 @@ type Product {
   slug: String!
   updatedAt: DateTime!
   weight: String!
+}
+
+input ProductIdCountInput {
+  count: Int!
+  productId: Int!
 }
 
 type ProductWithCount {
@@ -93,13 +107,23 @@ type Query {
 
 input UpdateCartInput {
   id: Int!
-  userId: Float
+  products: [ProductIdCountInput!]
+}
+
+input UpdateProductInput {
+  caption: String
+  description: String
+  imageSrc: String
+  price: Float
+  rate: Int = 0
+  slug: String!
+  weight: String
 }
 
 input UpdateUserInput {
   id: Int!
-  password: String!
-  username: String!
+  password: String
+  username: String
 }
 
 type User {

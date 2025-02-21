@@ -1,6 +1,6 @@
 import { Field, InputType, Int, OmitType, PartialType } from '@nestjs/graphql';
 import { User } from './user.dto';
-import { IsEmail, IsInt, IsString, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsInt, IsString, IsStrongPassword, ValidateIf } from 'class-validator';
 
 @InputType()
 export class FindUserInput extends PartialType(
@@ -35,11 +35,13 @@ export class UpdateUserInput {
   @IsInt()
   id: number; 
 
-  @Field()
+  @Field({ nullable: true })
+  @ValidateIf(o => o.username !== undefined)
   @IsString()
-  username: string;  
+  username?: string;  
 
-  @Field()
+  @Field({ nullable: true })
+  @ValidateIf(o => o.password !== undefined)
   @IsStrongPassword()
-  password: string;
+  password?: string;
 }

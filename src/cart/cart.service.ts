@@ -1,17 +1,18 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
-  //Cart,
-  CreateCartInput,
-  FindCartInput,
-  UpdateCartInput,
-} from './dto';
-//import { ICrudService } from 'src/common/interfaces/crud-service.interface';
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { Cart, CreateCartInput, FindCartInput, UpdateCartInput } from './dto';
+import { ICrudService } from 'src/common/interfaces/crud-service.interface';
 
 @Injectable()
-// implements
-//   ICrudService<Cart, FindCartInput, CreateCartInput, UpdateCartInput, number>
-export class CartService {
+export class CartService
+  implements
+    ICrudService<Cart, FindCartInput, CreateCartInput, UpdateCartInput, number>
+{
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll(params?: FindCartInput) {
@@ -19,7 +20,7 @@ export class CartService {
       where: { ...params },
     });
     if (!carts.length) {
-      throw new NotFoundException('No products found');
+      throw new NotFoundException('No cart found');
     }
     return carts;
   }
@@ -28,16 +29,42 @@ export class CartService {
       data: { ...params },
     });
     if (!cart.id) {
-      throw new HttpException('Failed to create author', 417);
+      throw new HttpException(
+        'Failed to create cart',
+        HttpStatus.EXPECTATION_FAILED,
+      );
     }
     return cart;
   }
-  async update(cart: UpdateCartInput) {
-    const response = await this.prismaService.cart.update({
-      where: { id: cart.id },
-      data: { ...cart },
+  async update(cartInput: UpdateCartInput) {
+    const { id: cartId, products } = cartInput;
+    const transaction = products.map((p) => {
+      return this.prismaService.cartProduct.upsert({
+        where: {
+          cartId_productId: { cartId: cartId, productId: p.productId },
+        },
+        update: {
+          productCount: p.count,
+        },
+        create: {
+          cartId: cartId,
+          productId: p.productId,
+          productCount: p.count,
+        },
+      });
     });
-    return response;
+
+    await this.prismaService.$transaction(transaction);
+    const updatedCart = await this.prismaService.cart.findUnique({
+      where: { id: cartId },
+      include: { cart_product: true },
+    });
+
+    if (!updatedCart) {
+      throw new Error('Cart not found');
+    }
+
+    return updatedCart;
   }
   async remove(id: number) {
     const cart = await this.prismaService.cart.delete({
@@ -64,7 +91,6 @@ export class CartService {
         cartId: id,
       },
     });
-    console.log(cart);
     return cart ? cart.productCount : 0;
   }
 }

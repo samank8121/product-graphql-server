@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateUserInput, FindUserInput, UpdateUserInput, User } from './dto';
 import { UserService } from './user.service';
 
@@ -21,8 +21,8 @@ export class UserResolver {
   async updateUser(@Args('params') user: UpdateUserInput) {
     return this.userService.update(user);
   }
-  @Mutation(() => Boolean, { name: 'DeleteProduct' })
-  async deleteUser(@Args('id') id: number) {
+  @Mutation(() => Boolean, { name: 'DeleteUser' })
+  async deleteUser(@Args('id', { type: () => Int },) id: number) {
     return this.userService.remove(id);
   }
 }

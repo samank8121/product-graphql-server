@@ -94,4 +94,10 @@ export class UpdateProductInput {
   imageSrc: string;
 }
 
-
+@InputType()
+export class ProductIdCountInput {
+  @Field(() => Int)
+  productId: number;
+  @Field(() => Int)
+  count: number;
+}

@@ -7,6 +7,7 @@ import { CommonModule } from './common/common.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UserModule } from './user/user.module';
 import { CartModule } from './cart/cart.module';
+import { UserCartModule } from './user-cart/user-cart.module';
 
 @Module({
   imports: [
@@ -15,13 +16,14 @@ import { CartModule } from './cart/cart.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: false,
-      includeStacktraceInErrorResponses: false,
+      //includeStacktraceInErrorResponses: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     ProductModule,
     CommonModule,
     CartModule,
     UserModule,
+    UserCartModule,
   ],
 })
 export class AppModule {}
