@@ -6,6 +6,7 @@ import { ProductModule } from './product/product.module';
 import { CommonModule } from './common/common.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { CartModule } from './cart/cart.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CartModule } from './cart/cart.module';
     ProductModule,
     CommonModule,
     CartModule,
+    UserModule,
   ],
 })
 export class AppModule {}

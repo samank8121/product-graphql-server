@@ -1,5 +1,6 @@
 import { Field, InputType, Int, OmitType, PartialType } from '@nestjs/graphql';
 import { Cart } from '../models/cart.model';
+import { IsInt } from 'class-validator';
 
 @InputType()
 export class FindCartInput extends PartialType(
@@ -10,4 +11,20 @@ export class FindCartInput extends PartialType(
 
   @Field(() => Int, { nullable: true })
   userId?: number; 
+}
+@InputType()
+export class CreateCartInput {    
+  @Field(() => Int)
+  @IsInt()
+  userId: number;  
+}
+@InputType()
+export class UpdateCartInput {   
+  @Field(() => Int)
+  @IsInt()
+  id: number; 
+
+  @Field({ nullable: true })
+  @IsInt()
+  userId: number;  
 }

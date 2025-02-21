@@ -34,11 +34,11 @@ export class ProductResolver {
   async updateProduct(
     @Args('params') product: UpdateProductInput,
   ) {
-    return this.productService.updateProduct(product);
+    return this.productService.update(product);
   }
   @Mutation(() => Boolean, { name: 'DeleteProduct' })
   async deleteProduct(@Args('slug') slug: string) {
-    return this.productService.delete(slug);
+    return this.productService.remove(slug);
   }
   @ResolveField(() => Product)
   async cartIds(@Parent() parent: Product) {

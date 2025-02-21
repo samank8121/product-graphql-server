@@ -10,14 +10,8 @@ type Cart {
   userId: Float!
 }
 
-input CreateProductInput {
-  caption: String!
-  description: String!
-  imageSrc: String!
-  price: Float!
-  rate: Int = 0
-  slug: String!
-  weight: String!
+input CreateCartInput {
+  userId: Int!
 }
 
 """
@@ -42,9 +36,9 @@ input FindProductInput {
 }
 
 type Mutation {
-  CreateProduct(params: CreateProductInput!): Product!
-  DeleteProduct(slug: String!): Boolean!
-  UpdateProduct(params: UpdateProductInput!): Product!
+  CreateProduct(params: CreateCartInput!): Cart!
+  DeleteProduct(id: Float!): Boolean!
+  UpdateProduct(params: UpdateCartInput!): Cart!
 }
 
 type Product {
@@ -67,12 +61,6 @@ type Query {
   products(params: FindProductInput): [Product!]!
 }
 
-input UpdateProductInput {
-  caption: String
-  description: String
-  imageSrc: String
-  price: Float
-  rate: Int = 0
-  slug: String!
-  weight: String
+input UpdateCartInput {
+  userId: Float
 }

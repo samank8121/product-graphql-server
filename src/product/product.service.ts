@@ -5,9 +5,20 @@ import {
   FindProductInput,
   UpdateProductInput,
 } from './dto/product-input.dto';
+import { ICrudService } from 'src/common/interfaces/crud-service.interface';
+import { Product } from './models/product.model';
 
 @Injectable()
-export class ProductService {
+export class ProductService
+  implements
+    ICrudService<
+      Product,
+      FindProductInput,
+      CreateProductInput,
+      UpdateProductInput,
+      string
+    >
+{
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll(params?: FindProductInput) {
@@ -42,7 +53,7 @@ export class ProductService {
     return product;
   }
 
-  async updateProduct(product: UpdateProductInput) {
+  async update(product: UpdateProductInput) {
     const response = await this.prismaService.product.update({
       where: { slug: product.slug },
       data: { ...product },
@@ -50,7 +61,7 @@ export class ProductService {
     return response;
   }
 
-  async delete(slug: string) {
+  async remove(slug: string) {
     const product = await this.prismaService.product.delete({
       where: { slug: slug },
     });
