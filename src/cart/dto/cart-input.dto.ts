@@ -1,5 +1,5 @@
 import { Field, InputType, Int, OmitType, PartialType } from '@nestjs/graphql';
-import { Cart } from '../models/cart.model';
+import { Cart } from './cart.dto';
 import { IsInt } from 'class-validator';
 
 @InputType()

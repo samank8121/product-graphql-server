@@ -1,5 +1,5 @@
 import { Field, Float, InputType, Int, OmitType, PartialType } from '@nestjs/graphql';
-import { Product } from '../models/product.model';
+import { Product } from './product.dto';
 import { IsInt, IsOptional, IsString } from 'class-validator';
 
 @InputType()

@@ -1,7 +1,6 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { ProductService } from './product.service';
-import { Product } from './models/product.model';
-import { CreateProductInput, FindProductInput, UpdateProductInput } from './dto/product-input.dto';
+import { Product, CreateProductInput, FindProductInput, UpdateProductInput } from './dto';
 import { CartService } from 'src/cart/cart.service';
 
 @Resolver(() => Product)

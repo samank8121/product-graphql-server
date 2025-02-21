@@ -1,12 +1,12 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
+  Product,
   CreateProductInput,
   FindProductInput,
   UpdateProductInput,
-} from './dto/product-input.dto';
+} from './dto';
 import { ICrudService } from 'src/common/interfaces/crud-service.interface';
-import { Product } from './models/product.model';
 
 @Injectable()
 export class ProductService

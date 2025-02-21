@@ -6,14 +6,10 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { Cart } from './models/cart.model';
+
 import { ProductService } from 'src/product/product.service';
 import { CartService } from './cart.service';
-import {
-  CreateCartInput,
-  FindCartInput,
-  UpdateCartInput,
-} from './dto/cart-input.dto';
+import { Cart, CreateCartInput, FindCartInput, UpdateCartInput } from './dto';
 
 @Resolver(() => Cart)
 export class CartResolver {

@@ -1,11 +1,11 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
+  Cart,
   CreateCartInput,
   FindCartInput,
   UpdateCartInput,
-} from './dto/cart-input.dto';
-import { Cart } from './models/cart.model';
+} from './dto';
 import { ICrudService } from 'src/common/interfaces/crud-service.interface';
 
 @Injectable()

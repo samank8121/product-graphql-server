@@ -1,5 +1,5 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
-import { Cart } from 'src/cart/models/cart.model';
+import { Cart } from 'src/cart/dto/cart.dto';
 
 @ObjectType()
 export class Product {
