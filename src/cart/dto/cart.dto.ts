@@ -1,13 +1,14 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Product } from 'src/product/dto/product.dto';
+import { ProductWithCount } from 'src/product/dto';
+import { User } from 'src/user/dto';
 
 @ObjectType()
 export class Cart {
   @Field(() => Int)
   id: number;
 
-  @Field()
-  userId: number;
+  @Field(() => User)
+  user?: User;
 
   @Field()
   createdAt: Date;
@@ -15,6 +16,6 @@ export class Cart {
   @Field()
   updatedAt: Date;
 
-  @Field(() => [Product])
-  productIds?: Product[];
+  @Field(() => [ProductWithCount])
+  products?: ProductWithCount[];
 }

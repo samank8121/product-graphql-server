@@ -24,6 +24,7 @@ model Product {
 model Cart {
   id        Int   @id @default(autoincrement())
   userId       Int
+  user         User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   cart_product CartProduct[]
@@ -46,6 +47,7 @@ model User {
   username  String   @unique
   email     String   @unique
   password  String 
+  Cart Cart[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("user")

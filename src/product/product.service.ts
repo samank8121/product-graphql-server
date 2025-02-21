@@ -70,14 +70,24 @@ export class ProductService
   }
 
   async findByCartId(cartId: number) {
-    const products = await this.prismaService.product.findMany({
+    const products = await this.prismaService.cartProduct.findMany({
       where: {
-        cart_product: { some: { cartId } },
+        cartId
       },
+      select: {
+        productCount: true,
+        product: true
+      }
     });
+    
     if (!products.length) {
       return null;
     }
-    return products;
+    const formattedProducts = products.map(p => ({
+      count: p.productCount,
+      ...p.product
+    
+    }));
+    return formattedProducts;
   }
 }

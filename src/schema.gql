@@ -5,13 +5,19 @@
 type Cart {
   createdAt: DateTime!
   id: Int!
-  productIds: [Product!]!
+  products: [ProductWithCount!]!
   updatedAt: DateTime!
-  userId: Float!
+  user: User!
 }
 
 input CreateCartInput {
   userId: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  username: String!
 }
 
 """
@@ -35,10 +41,18 @@ input FindProductInput {
   weight: String
 }
 
+input FindUserInput {
+  email: String
+  id: Int
+  username: String
+}
+
 type Mutation {
   CreateProduct(params: CreateCartInput!): Cart!
+  CreateUser(params: CreateUserInput!): User!
   DeleteProduct(id: Float!): Boolean!
   UpdateProduct(params: UpdateCartInput!): Cart!
+  UpdateUser(params: UpdateUserInput!): User!
 }
 
 type Product {
@@ -55,12 +69,44 @@ type Product {
   weight: String!
 }
 
+type ProductWithCount {
+  caption: String!
+  cartIds: [Cart!]
+  count: Int!
+  createdAt: DateTime!
+  description: String!
+  id: Int!
+  imageSrc: String!
+  price: Float!
+  rate: Int!
+  slug: String!
+  updatedAt: DateTime!
+  weight: String!
+}
+
 type Query {
   carts(params: FindCartInput): [Cart!]!
   product(params: FindProductInput!): Product!
   products(params: FindProductInput): [Product!]!
+  users(params: FindUserInput): [User!]!
 }
 
 input UpdateCartInput {
+  id: Int!
   userId: Float
+}
+
+input UpdateUserInput {
+  id: Int!
+  password: String!
+  username: String!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: Int!
+  password: String!
+  updatedAt: DateTime!
+  username: String!
 }

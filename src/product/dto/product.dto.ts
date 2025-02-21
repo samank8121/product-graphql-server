@@ -1,5 +1,5 @@
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
-import { Cart } from 'src/cart/dto/cart.dto';
+import { Cart } from 'src/cart/dto';
 
 @ObjectType()
 export class Product {
@@ -35,4 +35,10 @@ export class Product {
 
   @Field(() => [Cart], { nullable: true })
   cartIds?: Cart[];
+}
+
+@ObjectType()
+export class ProductWithCount extends Product{
+  @Field(() => Int)
+  count: number;
 }

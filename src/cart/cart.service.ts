@@ -1,18 +1,17 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
-  Cart,
+  //Cart,
   CreateCartInput,
   FindCartInput,
   UpdateCartInput,
 } from './dto';
-import { ICrudService } from 'src/common/interfaces/crud-service.interface';
+//import { ICrudService } from 'src/common/interfaces/crud-service.interface';
 
 @Injectable()
-export class CartService
-  implements
-    ICrudService<Cart, FindCartInput, CreateCartInput, UpdateCartInput, number>
-{
+// implements
+//   ICrudService<Cart, FindCartInput, CreateCartInput, UpdateCartInput, number>
+export class CartService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll(params?: FindCartInput) {
@@ -58,5 +57,14 @@ export class CartService
       return null;
     }
     return carts;
+  }
+  async findItemCountByCartId(id: number) {
+    const cart = await this.prismaService.cartProduct.findFirst({
+      where: {
+        cartId: id,
+      },
+    });
+    console.log(cart);
+    return cart ? cart.productCount : 0;
   }
 }
