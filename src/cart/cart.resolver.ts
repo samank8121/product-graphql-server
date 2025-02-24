@@ -14,7 +14,10 @@ import { Cart, FindCartInput, UpdateCartInput } from './dto';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/dto';
 import { ProductWithCount } from 'src/product/dto';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/guard/jwt.guard';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Cart)
 export class CartResolver {
   constructor(
@@ -36,7 +39,7 @@ export class CartResolver {
   }
 
   @Mutation(() => Boolean, { name: 'DeleteCart' })
-  async deleteCart(@Args('id', { type: () => Int },) id: number) {
+  async deleteCart(@Args('id', { type: () => Int }) id: number) {
     return this.cartService.remove(id);
   }
 

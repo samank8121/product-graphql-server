@@ -9,20 +9,20 @@ import { UserCartService } from 'src/user-cart/user-cart.service';
 import { CreateUserInput } from 'src/user/dto';
 import { LoginInput } from './dto/auth.dto';
 import * as argon2 from 'argon2';
-import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly userCartservice: UserCartService,
+    private jwt: JwtService,
+    private config: ConfigService,
   ) {}
   async signin(dto: CreateUserInput) {
     const user = await this.userCartservice.create(dto);
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.TOKEN_SECRET_KEY as jwt.Secret,
-    );
+    const token = await this.signToken(user.id, dto.email);
 
     return {
       token,
@@ -42,10 +42,7 @@ export class AuthService {
     if (!isValid) {
       throw new HttpException('Password not correct', HttpStatus.UNAUTHORIZED);
     }
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.TOKEN_SECRET_KEY as jwt.Secret,
-    );
+    const token = await this.signToken(user.id, email);
 
     return {
       token,
@@ -54,5 +51,22 @@ export class AuthService {
         email: user.email,
       },
     };
+  }
+  async signToken(
+    userId: number,
+    email: string
+  ): Promise<string> {
+    const payload = {
+      sub: userId,
+      email,
+    };
+    const secret = this.config.get('TOKEN_SECRET_KEY');
+
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn: '45m',
+      secret: secret,
+    });
+
+    return token;
   }
 }

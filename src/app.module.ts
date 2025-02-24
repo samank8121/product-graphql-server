@@ -9,9 +9,11 @@ import { UserModule } from './user/user.module';
 import { CartModule } from './cart/cart.module';
 import { UserCartModule } from './user-cart/user-cart.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
