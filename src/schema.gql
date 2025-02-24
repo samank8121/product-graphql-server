@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthInfo {
+  token: String!
+  user: AuthUserInfo!
+}
+
+type AuthUserInfo {
+  email: String!
+  username: String!
+}
+
 type Cart {
   createdAt: DateTime!
   id: Int!
@@ -53,12 +63,19 @@ input FindUserInput {
   username: String
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   CreateProduct(params: CreateProductInput!): Product!
   CreateUser(params: CreateUserInput!): User!
   DeleteCart(id: Int!): Boolean!
   DeleteProduct(slug: String!): Boolean!
   DeleteUser(id: Int!): Boolean!
+  Login(params: LoginInput!): AuthInfo!
+  Signup(params: CreateUserInput!): AuthInfo!
   UpdateCart(params: UpdateCartInput!): Cart!
   UpdateProduct(params: UpdateProductInput!): Product!
   UpdateUser(params: UpdateUserInput!): User!
@@ -100,7 +117,7 @@ type ProductWithCount {
 
 type Query {
   carts(params: FindCartInput): [Cart!]!
-  product(params: FindProductInput!): Product!
+  product(slug: String!): Product!
   products(params: FindProductInput): [Product!]!
   users(params: FindUserInput): [User!]!
 }

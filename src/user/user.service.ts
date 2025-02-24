@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -20,7 +21,7 @@ export class UserService
 {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly userCartService: UserCartService,
+    @Inject(UserCartService) private readonly userCartService: UserCartService,
   ) {}
 
   async findAll(params?: FindUserInput): Promise<User[]> {

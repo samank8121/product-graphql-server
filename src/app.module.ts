@@ -8,6 +8,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { UserModule } from './user/user.module';
 import { CartModule } from './cart/cart.module';
 import { UserCartModule } from './user-cart/user-cart.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserCartModule } from './user-cart/user-cart.module';
     CartModule,
     UserModule,
     UserCartModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

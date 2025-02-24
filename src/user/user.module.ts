@@ -1,11 +1,10 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
-import { UserCartModule } from 'src/user-cart/user-cart.module';
+import { UserCartService } from 'src/user-cart/user-cart.service';
 
 @Module({
-  imports: [forwardRef(() => UserCartModule)],
-  providers: [UserResolver, UserService],
+  providers: [UserResolver, UserService, UserCartService],
   exports: [UserService],
 })
 export class UserModule {}

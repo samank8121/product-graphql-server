@@ -18,7 +18,7 @@ export class ProductResolver {
 
   @Query(() => Product, { name: 'product' })
   async getProduct(
-    @Args('params') { slug }: FindProductInput,
+    @Args('slug') slug: string,
   ): Promise<Product | void> {
     return await this.productService.findBySlug(slug);
   }
