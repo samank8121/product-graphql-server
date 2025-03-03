@@ -25,3 +25,5 @@ $ pnpm start
 # watch mode
 $ pnpm start:dev
 ```
+## Author
+[Saman Kefayatpour](https://www.linkedin.com/in/samankefayatpour/)
